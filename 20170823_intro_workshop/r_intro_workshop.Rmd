@@ -2,111 +2,182 @@
 title: 'R Notebook'
 output: html_notebook
 ---
+# Part 1: Theory - Introductory R Hands-On Workshop 
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+1. **First**: Create a new script: File -> New file -> R Script
+2. Get familiar with RStudio GUI
 
-# Variables & Data Types
+**Basic Operators**:
+* assignment operators: (<-, =)
+* separation operators: (;,) --> (';' separates statements while ',' separates arguments) eg. read.csv(file = 'test.csv' ,sep = ''); View(test.csv)
+* algebraic operators: (+,-,*,/) are used for mathematical operations eg. 5+7
+* TAB: Can be used to search functions and arguments eg. read.csv(TAB)
 
-### Part 1.1 - VARIABLES: CHARACTERS & INTEGERS 
-Create a new script: File -> New file -> R Script
-Now let’s create a variable! 
+## Variables Types
+
+**Variable Types**:
+* char = character (categorical variables) = read as a word eg. 'helloworld'
+* numeric = any number eg. 1 or 5.43
+* int = integer = discrete value with a numerical component eg. 2L, 3L, 4L etc
+* bool = boolean (also known as logical) = TRUE or FALSE value 
+* factor = discrete value (ordinal variable) eg. 'good', 'better', 'best'
+
+### Variables: Character & Numeric (char & num)
+
+You create a variable by **assigning** it a value with an assignment operator (<-, =).
+* In R the left side is left for the assignment
+* (<-) Is not commutative (2 <- a not allowed ;  a <- 2 != a -> 2)
+* (=) Commutative ( 2 = a  not allowed ; a = 2)
+
+Let’s create a variable by assigning it a numerical value! 
 ```{r}
+# Assign variable a the value 2. You can use for that the assignment operator (either <- or =)
 a <- 2
+a
 ```
 
-Look at the Environment section to see variables you’ve made and their current values.
-Change the value of a, then look at the Environment section to see the updated value.
+```{r}
+# Unlike other languages variables the dot (.) does not have any semantic meaning
+# This time we use the = operator
+a.1 = 3
+a.1
+```
+
+Look at the Environment section to see variables you’ve made and their current values. Change the value of a, then check again at the Environment section to see the updated value.
 ```{r}
 a <- 3 + 5
+a
 ```
 
-c() creates a vector: a sequence of data points of the same type
+#### Assigning different values to a variable (variable types)
+
+Let’s explore. Try this: 
 ```{r}
-b <- c(1,3,5,7,9)
-b <- 1:12
+c <- '5'; d <- 'helloworld'
+c
+d
+```
+
+Now try this:
+```{r}
+c.1 <- 5
+c.1
 ```
 
 Now try this: what happens?
 ```{r}
-c <- c(4,3,'5',4)	
+c <- c(4,3,'5',7)	
+c
 ```
 
-Let’s explore. Try this: 
 ```{r}
-c <- '5'
-# Now try this:
-c <- 5
 a <- 'RStudio'		# quotation marks make character variables
-a <- as.character(5)	# this is another way to make the character variable type
+a.3 <- as.character(5)	# this is another way to make the character variable type
+
+a
+a.3
 ```
 
-### Part 1.2 - VARIABLES: BOOLEAN DATA
-Boolean or logical variables only have true and false options.
-Computers see “true” as 1 and “false” as 0.
-Make this variable and then look at the Environment section to look at the variable type.
+### Variables: Boolean Data
+Boolean or logical variables only have true and false options. Computers see “true” as 1 and “false” as 0. Create a logical variable (boolean value) then look at the Environment section to look at the variable type.
+
 ```{r}
-a <- TRUE			
-a <- c(TRUE, FALSE, FALSE, TRUE)
+a.5 <- TRUE
+a.6 <- c(TRUE, FALSE, FALSE, TRUE)
+
+a.5
+a.6
 ```
 
-There are also questions you can ask R that will give boolean answers.
-Ask R whether a is a numeric (non-character) variable.
+You can find out the data type with different native R functions: class() and str()
+```{r}
+class(a.5); str(a.6)
+```
+
+## Data Types
+
+**Data Types**:
+* factor: 
+* vector: 
+* matrix: 
+* array: 
+* data.frame: 
+* list: 
+* (among other eg. Date)
+
+Note: We are focusing in this workshop on vectors and data.frames.
+
+#### Creating Vectors
+The function: **c()** creates a vector by combining values into a common type ie. a sequence of data points of the same type (?c())
+```{r}
+b <- c(1,3,5,7,9)
+b
+```
+
+There are many functions with equal or similar outcome eg. sequence() or range()
+```{r}
+b.2 <- sequence(12)
+b.2
+```
+
+With an operator: ':' = range
+```{r}
+b.1 <- 1:12
+b.1
+```
+
+There are also questions you can ask R that will give boolean answers. Ask R whether a is a numeric (non-character) variable.
+
 ```{r}
 is.numeric(a)
-## [1] FALSE
 ```
-a is a boolean variable, not a numeric variable
 
-Even though the computer sees true as 1 and false as 0, it can tell that you made a boolean variable because you typed TRUE and FALSE when you created it. 
+A: a is a boolean variable, not a numeric variable. Even though the computer sees true as 1 and false as 0, it can tell that you made a boolean variable because you typed TRUE and FALSE when you created it. 
 
 Now try these questions:
 ```{r}
-is.logical(a)
-is.character(a)
+is.logical(a); is.character(a)
 ```
 
-### Part 2 - FUNCTIONS
+### Functions
 We have been using functions to ask R questions and to give it tasks. The functions we have used so far are:
 ```{r}
 c()
-as.character(5)
-is.numeric(a)
-is.logical(a)
-is.character(a)
+is.character(a) # checks if variable a is a character
+as.character(a) # states that variable a is a character
+as.character(5) # states that value 5 is a character == '5'
+
+is.numeric(a) # same for integers
+is.logical(a) # same for boolean
+
+is.data.frame(a) # same for data types (dataframe, vector)
+is.vector(b) 
 ```
 
-Functions have a function name (c, as.character, is.numeric etc) 
-The function name is followed by curved brackets:()
-Functions always have these brackets, even if there’s nothing inside.
-The area inside the brackets can be used to give the function information
+Functions have a function name (c, as.character, is.numeric etc). The function name is followed by curved brackets:()
+Functions always have these brackets, even if there’s nothing inside. The area inside the brackets can be used to give the function information
 ```{r}
 as.character(5)
 ```
 
-Here we are giving the function as.character() the information 5. 
-This means that it checks whether 5 is a character
-If we wanted to store the result that the function gives us, we can make the answer into a stored variable like this:
+Here we are giving the function as.character() the information: 5. 
+This means that it checks whether 5 is a character. If we wanted to store the result that the function gives us, we can make the answer into a stored variable like this:
 ```{r}
 b <- as.character(5)
 ```
 
 Q1 --> What variable type would b be, and what would its value be? 
+A: 
 
-### Part 3 - DATA FRAMES: USED FOR GRAPHING AND STATISTICAL ANALYSES
+### Data Frames
+The data frame structure is used in most applications of R. The data.frame() function makes data frames out of your data. A data frame is like a table: it stores your data neatly. 
 
-The data.frame() function makes data frames out of your data. A data frame is like a table: it stores your data neatly. The data frame structure is used in most applications of R.
 ```{r}
 # Create three vectors: a, b, c.
 # (Reminder: a vector is a sequence of data that has the same variable type)
 a <- c(1,2,3,4,10,11,12)
 b <- c(5,6,7,8,13,14,15)
 c <- c('yes','no','no','yes','no','yes','yes')
-
-# Combine these vectors to make and store a data frame called myData(or call it something else if you want!)
-myData <- data.frame(a,b,c)
-
-# Now run this function:
-head(myData,3)
 ```
 
 Combine these vectors to make and store a data frame called myData (or call it something else if you want!)
@@ -117,9 +188,10 @@ myData <- data.frame(a,b,c)
 head(myData,3)
 ```
 
-#### ACCESSING DATAFRAMES ELEMENTS
+## Basic Operations 
+### Accessing elements in a data.frame
 
-Data frames use the [ROW, COLUMN] access structure. 
+Data frames use the *[ROW, COLUMN]* access structure:
 
 Example 1: To access the element in the 4th row, 2nd column of the data frame:
 ```{r}
@@ -129,34 +201,36 @@ myData[4,2]
 ```{r}
 # Accessing COLUMNS - To access a whole column of the data frame, use the operator '$'. This allows you to find information by name. let’s find all the values with column name a:
 myData$a
+```
 
+```{r}
 # Column
 myData[,1]
+```
 
+```{r}
 # Row
 myData[1,]
 ```
 
 
-## Practical Exercises
+# Part 2: Exercises - Introductory R Hands-On Workshop Part1: 
 
-#### STEP 1: Set the working directory
+## Step 1: Set the working directory
 You can import data into R from lots of different file types. You can also import it from any location.
 Today we’re going to import data from a file you have on your computer.
 
-1. The file is called 'diamonds.csv', you should have downloaded it (if not, time to download now!)
-2. Find out where your diamonds.csv file is: probably in your Downloads folder.
+1. The file is called 'diamonds.csv', you should have downloaded it (if not, time to download now!). Lookup link for some documentation: https://www.kaggle.com/shivam2503/diamonds
+2. Find out where your diamonds.csv file is: probably in your /Downloads folder.
 3. Check where Rstudio looks to find new data.
-4. “Working directory” is the name that Rstudio uses for the place its data is stored. 
-5. Enter this line:
+4. “Working directory” is the name that Rstudio uses for the place its data is stored. To find out, enter this line (get working directory):
 ```{r}
 getwd()
 ```
 
-This function asks Rstudio to tell you where the current working directory is. 
-This is probably not set to your Downloads folder at the moment. To set it to your Downloads folder, type:
+This function asks Rstudio to tell you where the current working directory is. This is probably not set to your Downloads folder at the moment. To set it to your Downloads folder, type:
 ```{r}
-setwd("~/Downloads")
+setwd("~/Documents/GitHub/meetup_presentations_miami/20170823_intro_workshop/")
 # The ~ fills in all the other file location information automatically
 ```
 
@@ -165,30 +239,18 @@ Now enter this line again to check that you’re in the same location as your di
 getwd()
 ```
 
-### STEP 2: IMPORTING DATA AND EXPLORING DATA
-
+## Step 2: Data Import and exploration
 1. Load your data
-
 2. Read data set using a function that loads csv files
 ```{r}
-diamonds <- read.csv("diamonds.csv")
+library(readr)
+diamonds <- read_csv("~/Documents/GitHub/meetup_presentations_miami/20170823_intro_workshop/diamonds.csv")
 # Dataset consists of the price and quality information for 54,000 diamonds
 ```
 
 To have a quick look at the first few rows of the dataset, type:
 ```{r}
 head(diamonds)
-
-## X  carat      cut color clarity depth table price    x    y    z
-## 1   0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
-## 2   0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
-## 3   0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
-## 4   0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
-## 5   0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
-## 6   0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48   
-
-# four parameters of diamond quality: carat, cut, colour and clarity; 
-# five physical measurements, depth, table, x, y and z. 
 ```
 
 You can also have a quick look at the last few rows
@@ -204,7 +266,6 @@ str(diamonds)
 Q2 --> How many variables and observations does the data contain?
 Q3 --> What types of variables does the data contain?
 
-
 #### A Summary of Variable Types:
 * numeric = any number eg. 1 or 5.43
 * int = integer = discrete value with a numerical component eg. 2L, 3L, 4L etc
@@ -213,45 +274,44 @@ Q3 --> What types of variables does the data contain?
 * factor = discrete value eg. 'good', 'better', 'best'
 
 
-### STEP 3: GRAPHING THE DATA
+Another helpful function is 'summary'. Different handling according to variable type:
+```{r}
+summary(diamonds)
+```
+
+## Step 3: Visualize your data
 R is really useful because of its packages
 
 *What’s a package?*
-A package is some code that someone else has taken the time to perfect.
-Each package is usually useful for one particular application.
-For example, there is a package called dplyr that is useful for data sorting and filtering
+A package is some code that someone else has taken the time to perfect. Each package is usually useful for one particular application. For example, there is a package called 'dplyr' that is useful for data sorting and filtering
 
-(Continue with the exercise)
+
+(...Continue with the exercise)
 We want to make beautiful graphs, and to be able to customise them easily. A great package for this is ggplot2.
 
-#### Install & Load package
+### Installing & Loading packages
 ```{r}
-# Let’s install the package! 
 install.packages("ggplot2")
 
 # load package 
 library(ggplot2)
 ```
 
-### GRAPHING DATA WITH GGPLOT(): SCATTERPLOT
-The package ggplot2 includes a function called ggplot(). We use the ggplot() function to create graphs using our data.
+#### Data Visualization with ggplot(): Scatterplot
+The package ggplot2 includes a function called ggplot(). We use the ggplot() function to create graphs using our data. Let’s see how diamond price changes due to carat.
 
-Q4 --> Let’s see how diamond price changes due to carat.
 ```{r}
 ggplot(data = diamonds, 
        aes(x = carat, y = price)) + geom_point()
 ```
 
 Let's deconstruct this command:
-
 * ggplot – function that creates the basic ggplot graph
 * data - the data frame that you want to use 
 * aes – short for aesthetic, describes how your variables are graphed
 * geom – the functions that tell ggplot how you want the data presented (scatter plot, histogram etc)
 
-### GRAPHING DATA WITH GGPLOT(): SCATTERPLOT WITH DETAILS
-
-Lets add some colour (American spelling is generally used in R, so it’s color!)
+Lets add some colors according to the cut
 ```{r}
 ggplot(data = diamonds, 
        aes(x = carat, 
@@ -265,6 +325,7 @@ ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) + geom_point() +
  facet_wrap(~cut) + ggtitle("Diamonds price vs carat")
 ```
 
+#### Data Visualization with ggplot(): Histogram
 Lets explore the price range of diamonds
 ```{r}
 ggplot(data = diamonds, aes(x = price)) + geom_histogram()
@@ -278,8 +339,7 @@ ggtitle("histogram of diamond prices") +
 xlab("price, $")
 ```
 
-### Try by yourself:
-
+*Try by yourself:*
 1. Experiment with the binwidth value.
 2. Use scale_x_continuous() to see what happens:
 ```{r}
@@ -292,21 +352,20 @@ xlab("price, $")
 
 Q5 --> What does this histogram tell you?
 
-### GRAPHING DATA WITH GGPLOT(): BOXPLOT
+#### Data Visualization with ggplot(): Boxplot
+Let's explore some boxplots:
 
-Let's explore boxplots:
 ```{r}
 ggplot(data = diamonds, 
        aes(x = cut, y = price)) + geom_boxplot()
 ```
 
-GRAPHING DATA WITH GGPLOT(): BOXPLOT WITH DETAILS
 ```{r}
 ggplot(data = diamonds, aes(x = cut, y = price)) + 
 geom_boxplot(color = "#1F3552", fill = "#4271AE", alpha = 0.7, outlier.shape = 1)+ theme_classic()+ scale_y_continuous(name = "diamond price, $", breaks = seq(0, 20000, 2500),limits=c(0, 20000)) + scale_x_discrete(name = "diamond cut") + ggtitle("Boxplot of diamond price by cut")
 ```
 
-## RESOURCES:
+## Resources & References:
 * Stack Overflow: https://stackoverflow.com/documentation/r/topics
 * Free Udacity ‘Data Analysis with R’ course: https://www.udacity.com/course/data-analysis-with-r--ud651
 * Free Coursera ‘R Programming’ course: https://www.coursera.org/learn/r-programming
