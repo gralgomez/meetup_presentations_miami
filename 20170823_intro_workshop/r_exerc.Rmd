@@ -1,0 +1,262 @@
+---
+title: "R Exercises"
+output: html_notebook
+---
+```{r}
+# source: http://rstatistics.net/
+setwd("/Users/laurita/Documents/GitHub/ds_moocs/r_programing/")
+```
+
+# R Tutorial
+This worksheet is meant to refresh R concepts and put them to practice in a near future. The source of the tutorial is: http://rstatistics.net/r-tutorial-exercise-for-beginners/
+
+## Environments
+The outermost main container is called the global environment (globalenv()). This is the default place will R will store all objects that you create. You can place as many objects as your computer memory will allow it to hold.
+
+```{r}
+env1 <- new.env()  # create a new environment
+assign("a", 3, envir = env1)  # store a=3 inside env1
+ls()  # returns objects in .GlobalEnv
+ls(env1)  # returns objects in env1
+get('a', envir=env1)  # retrieve value from env1
+```
+
+Once you know how to insert objects into your environment, 
+here is how to erase them.
+```{r}
+rm(a)  # delete the object 'a'
+rm(list = ls())  # caution: delete all objects in .GlobalEnv
+rm(list=ls())  # remove all objects in work space
+#gc()  # free system memory
+```
+
+## Classes & Data types
+
+### Variable Types
+(https://www.tutorialspoint.com/r/r_data_types.htm)
+
+#### 1. character
+Strings
+`paste()`
+
+`append()`
+
+#### 2. integer
+Integers
+
+#### 3. numeric
+Integers + Fractions
+
+#### 4. factor
+Categorical variable where each level is a category
+
+#### 5. logical
+Boolean (e.g TRUE/FALSE)
+
+#### 6. complex
+Complex numbers (3 + 2i)
+
+#### 7. raw
+Storage coded (e.g "Hello" is stored as 48656c6c6f)
+
+```{r}
+l <- TRUE
+l; class(l)
+
+a <- 3.14
+a; print(class(a))
+
+b <- 'hello world'
+b ; print(class(b))
+
+d <- 2L
+d ; class(d)
+  
+m <- 2+5i
+m ; class(m)
+
+v <- charToRaw("laura")
+v; class(v)
+```
+
+### Data Types
+There are many types of R-objects. The frequently used ones are:
+
+#### 1. Vector
+(http://www.r-tutor.com/r-introduction/vector/vector-arithmetics)
+In R programming, the very basic data types are the R-objects called *vectors* which hold elements of (same) variable classes of mode 'mode'. Please note in R the number of classes is not confined to only the above six types, e.g we can use many atomic vectors and create an array whose class will become array.
+
+##### Usage
+`vector(mode = "logical", length = 0)`
+
+`as.vector(x, mode = "any")`
+
+`is.vector(x, mode = "any")`
+
+```{r}
+# Create a vector.
+apple <- c('red','green',"yellow")
+print(apple); print(class(apple))
+```
+
+##### Manipulating Vectors
+###### Subsetting
+```{r}
+apple
+
+apple2 <- apple[2:3]; # elements in 2,3 position
+apple2
+
+apple3 <- apple[c(1,3)] # elements in 1,3 position 
+apple3
+
+apple4 <- apple[-1] # all elements except 1 position
+apple4
+```
+
+###### Sorting
+```{r}
+sort(apple) #ascending sort
+sort(apple, decreasing = TRUE) #descending sort
+
+apple[order(apple)] #ascending sort
+apple[rev(order(apple))]  #descending sort
+```
+
+###### Sampling and Missing Values
+```{r}
+apple <- append(apple, NA)
+apple5 <- apple[!is.na(apple)]
+apple5
+```
+```{r}
+apple
+sample(apple)  # sample all elements randomly
+set.seed(50) # optional. set it to get same random samples.
+sample(apple, 2)  # sample 3 elem without replacement
+apple2
+sample(apple2, 3, replace=T)  # sample with replacement
+```
+
+#### 2. Matrix
+A matrix is a two-dimensional rectangular data set (n X m). It can be created using a vector input to the matrix function. All columns must uniformly contain only one variable type.
+```{r}
+# Create a matrix.
+M = matrix( c('a','a','b','c','b','a'), nrow = 2, ncol = 3, byrow = TRUE)
+print(M); print(class(M))
+````
+
+#### 3. Array
+While matrices are confined to two dimensions, arrays can be of any number of dimensions. The array function takes a dim attribute which creates the required number of dimension. In the below example we create an array with two elements which are 3x3 matrices each. A two-dimensional array is the same thing as a matrix. One-dimensional arrays often look like vectors, but may be handled differently by some functions: str does distinguish them in recent versions of R.
+
+Array returns an array with the extents specified in dim and naming information in dimnames. The values in data are taken to be those in the array with the leftmost subscript moving fastest. If there are too few elements in data to fill the array, then the elements in data are recycled. If data has length zero, NA of an appropriate type is used for atomic vectors (0 for raw vectors) and NULL for lists.
+
+Unlike matrix, array does not currently remove any attributes left by as.vector from a classed list data, so can return a list array with a class attribute.
+
+##### Usage (?array)
+`array(data = [vector], dim = length(data), dimnames = NULL)`
+
+`as.array(x, ...)`
+
+`is.array(x)`
+
+##### Arguments
+* data: a vector (including a list or expression vector) giving data to fill the array. Non-atomic classed objects are coerced by as.vector.
+
+* dim:  the dim attribute for the array to be created, that is an integer vector of length one or more giving the maximal indices in each dimension. (dim = n , m, z)
+
+```{r}
+# Create a list.
+array1 <- array(c('green','yellow'), dim = c(3,3,2))
+print(array1); print(class(array1))
+````
+
+#### 4. Data.frame
+Data frames are tabular data objects (n X m). Unlike a matrix, in data frame each column can contain different modes of data. The first column can be numeric while the second column can be character and third column can be logical. It is a list of vectors of equal length.
+
+Data Frames are created using the data.frame() function.
+```{r}
+# Create a data frame.
+BMI <- 	data.frame(
+   gender = c("Male", "Male","Female"), 
+   height = c(152, 171.5, 165), 
+   weight = c(81,93, 78),
+   Age = c(42,38,26))
+print(BMI); print(class(BMI))
+````
+
+#### 5. List
+A list is an R-object which can contain many different types of elements inside it like vectors, functions and even another list inside it. A List can hold objects of different classes and lengths and it functions to construct, coerce and check for both kinds of R lists.
+
+Almost all lists in R internally are Generic Vectors, whereas traditional dotted pair lists (as in LISP) remain available but rarely seen by users (except as formals of functions).
+
+The arguments to list or pairlist are of the form value or tag = value. The functions return a list or dotted pair list composed of its arguments with each value either tagged or untagged, depending on how the argument was specified. 
+
+The "environment" method for as.list copies the name-value pairs (for names not beginning with a dot) from an environment to a named list. The user can request that all named objects are copied. Unless sorted = TRUE, the list is in no particular order (the order depends on the order of creation of objects and whether the environment is hashed). No enclosing environments are searched. (Objects copied are duplicated so this can be an expensive operation.) Note that there is an inverse operation, the as.environment() method for list objects.
+
+##### Usage
+`list(...)`, `pairlist(...)`, `as.list(x, ...)`, `alist(...)`
+
+`as.list(x, all.names = FALSE, sorted = FALSE, ...)`
+
+`x: object to the coerced or tested`
+
+```{r}
+# Create a list.
+list1 <- list(c(2,5,3), 21.3, sin)
+print(list1); print(class(list1))
+````
+
+#### Unlist 
+[`?unlist`]
+Given a list structure x, unlist simplifies it to produce a vector which contains all the atomic components which occur in x.
+
+```{r}
+list2 <- unlist(list1, recursive = FALSE)
+list2; print(class(list2))
+```
+
+#### 6. Factor
+Factors are the r-objects which are created using a vector. It stores the vector along with the distinct values of the elements in the vector as labels. The labels are always character irrespective of whether it is numeric or character or Boolean etc. in the input vector. They are useful in statistical modeling. Factors are created using the factor() function. The nlevels functions gives the count of levels.
+
+```{r}
+# Create a list.
+apple_colors <- c('green','green','yellow','red','red','red','green')
+factor_apple <- factor(apple_colors)
+print(factor_apple); print(class(factor_apple))
+````
+
+#### 7. Dates
+(https://www.stat.berkeley.edu/~s133/dates.html)
+
+```{r}
+dateString <- "15/06/2014"
+# "Date"
+myDate <- as.Date(dateString, format="%d/%m/%Y")
+myDate; print(class(myDate))  
+
+# "POSIXlt" "POSIXt"
+myPOSIXltDate1 <- as.POSIXlt(myDate); 
+myPOSIXltDate1; print(class(myPOSIXltDate1))
+
+# "POSIXct" "POSIXt" 
+myPOSIXctDate2 <- as.POSIXct(myDate); 
+myPOSIXctDate2; print(class(myPOSIXctDate2))
+```
+
+### Converting Data Types
+
+#### Data.Frame 
+#### Matrix
+#### List
+#### Factors
+
+### Viewing Objects
+```{r}
+attributes(myPOSIXltDate1) #attributes 
+#unclass(myPOSIXltDate1)  # works!
+#names(myPOSIXltDate)  # doesn't work on a POSIXlt object
+unlist(myPOSIXltDate1)  # works!
+```
+
+
