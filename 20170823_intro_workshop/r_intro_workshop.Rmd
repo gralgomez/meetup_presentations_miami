@@ -318,6 +318,14 @@ Use R internal help systems by typing directly into the window:
 ?mean()
 help()
 
+## Homework
+swirl
+4: Exploratory Data Analysis: The basics of exploring data in R
+--
+2: Exploratory Graphs
+8: GGPlot2 Part1 
+9: GGPlot2 Part2 
+
 
 
 
